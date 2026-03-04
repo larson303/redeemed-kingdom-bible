@@ -1,0 +1,1253 @@
+/* Redeemed Kingdom Bible - SvelteKit App Styles */
+
+/* CSS Custom Properties */
+:root {
+  --font-family: 'Gentium Plus', 'Gentium', Georgia, 'Times New Roman', serif;
+  --font-sans: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --font-size-base: 1.2rem;
+  --line-height: 1.7;
+  --color-text: #2c2c2c;
+  --color-background: #fdfcfa;
+  --color-accent: #3d2b1f;
+  --color-jesus: #8b1a1a;
+  --color-link: #4a6fa5;
+  --color-link-hover: #2d5a9e;
+  --color-nav-bg: #e8ddd0;
+  --color-nav-hover: #3d2b1f;
+  --color-footnote: #5c4a3a;
+  --color-copyright: #7a7a7a;
+  --color-sidebar-bg: #f7f3ef;
+  --color-breadcrumb-bg: #f3ede6;
+  --color-border: #d9d0c7;
+  --color-surface: #f7f3ef;
+  --color-transliteration: #5c4a3a;
+  --color-text-inverse: #fff;
+  --color-surface-alt: #ece4da;
+  --color-accent-dark: #2a1d12;
+  --color-overlay: rgba(0,0,0,0.5);
+  --color-muted: #999;
+  --color-focus-ring: rgba(61, 43, 31, 0.15);
+  --color-shadow: rgba(0,0,0,0.15);
+  --color-border-subtle: rgba(0,0,0,0.06);
+  --color-table-stripe: rgba(0, 0, 0, 0.02);
+  --color-popup-bg: #faf6ef;
+  --spacing-sm: 0.5rem;
+  --spacing-md: 1rem;
+  --spacing-lg: 1.5rem;
+  --spacing-xl: 2.5rem;
+  --max-width: 50rem;
+  --sidebar-width: 240px;
+}
+
+/* Font Face */
+@font-face {
+  font-family: 'Gentium Plus';
+  src: url('/fonts/gentium_plus.woff') format('woff'),
+       url('/fonts/gentium_plus.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* Reset & Base */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  font-size: 100%;
+}
+
+body {
+  font-family: var(--font-family);
+  font-size: var(--font-size-base);
+  line-height: var(--line-height);
+  color: var(--color-text);
+  background-color: var(--color-background);
+}
+
+/* Page Layout */
+.page-wrapper {
+  display: flex;
+  min-height: 100vh;
+}
+
+.content-wrapper {
+  flex: 1;
+  padding: var(--spacing-md);
+  max-width: 100%;
+}
+
+/* Sidebar Navigation */
+.sidebar {
+  width: var(--sidebar-width);
+  background: var(--color-sidebar-bg);
+  border-right: 1px solid var(--color-border);
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100vh;
+  overflow-y: auto;
+  transform: translateX(-100%);
+  transition: transform 0.3s ease;
+  z-index: 1000;
+}
+
+.sidebar.open {
+  transform: translateX(0);
+}
+
+.sidebar-header {
+  padding: var(--spacing-md);
+  background: var(--color-nav-hover);
+  color: var(--color-text-inverse);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  position: sticky;
+  top: 0;
+}
+
+.sidebar-header h2 {
+  margin: 0;
+  font-size: 1.1rem;
+  color: var(--color-text-inverse);
+  text-align: left;
+}
+
+.sidebar-close {
+  background: none;
+  border: none;
+  color: var(--color-text-inverse);
+  font-size: 1.5rem;
+  cursor: pointer;
+  padding: 0.25rem;
+  line-height: 1;
+}
+
+.sidebar-section {
+  border-bottom: 1px solid var(--color-border);
+}
+
+.sidebar-section summary {
+  padding: var(--spacing-sm) var(--spacing-md);
+  background: var(--color-surface-alt);
+  cursor: pointer;
+  font-weight: bold;
+  font-size: 0.95rem;
+  list-style: none;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.sidebar-section summary::-webkit-details-marker {
+  display: none;
+}
+
+.sidebar-section summary::after {
+  content: '+';
+  font-size: 1.2rem;
+}
+
+.sidebar-section[open] summary::after {
+  content: '\2212';
+}
+
+.sidebar-section ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.sidebar-section li a {
+  display: block;
+  padding: 0.4rem var(--spacing-md);
+  color: var(--color-text);
+  text-decoration: none;
+  font-size: 0.9rem;
+  border-bottom: 1px solid var(--color-border-subtle);
+  transition: background 0.2s;
+}
+
+.sidebar-section li a:hover {
+  background: var(--color-surface-alt);
+}
+
+.sidebar-section li a.active {
+  background: var(--color-nav-bg);
+  font-weight: bold;
+}
+
+/* Menu Toggle Button */
+.menu-toggle {
+  background: var(--color-nav-hover);
+  color: var(--color-text-inverse);
+  border: none;
+  padding: 0.5rem 0.75rem;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 1.1rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.menu-toggle:hover {
+  background: var(--color-accent-dark);
+}
+
+/* Sidebar Overlay */
+.sidebar-overlay {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: var(--color-overlay);
+  z-index: 999;
+}
+
+.sidebar-overlay.show {
+  display: block;
+}
+
+/* Top Navigation Bar */
+.top-nav {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-md);
+  padding: var(--spacing-sm) 0;
+  margin-bottom: var(--spacing-sm);
+  flex-wrap: wrap;
+}
+
+/* Breadcrumb Navigation */
+.breadcrumb {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.25rem;
+  padding: var(--spacing-sm) var(--spacing-md);
+  background: var(--color-breadcrumb-bg);
+  border-radius: 4px;
+  font-size: 0.9rem;
+  flex: 1;
+}
+
+.breadcrumb a {
+  color: var(--color-link);
+  text-decoration: none;
+}
+
+.breadcrumb a:hover {
+  text-decoration: underline;
+}
+
+.breadcrumb .separator {
+  color: var(--color-muted);
+  margin: 0 0.25rem;
+}
+
+.breadcrumb .current {
+  color: var(--color-text);
+  font-weight: bold;
+}
+
+/* Chapter Navigation */
+.chapter-nav {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.chapter-nav select {
+  padding: 0.4rem 0.6rem;
+  font-size: 0.95rem;
+  font-family: inherit;
+  border: 1px solid var(--color-border);
+  border-radius: 4px;
+  background: var(--color-background);
+  color: var(--color-text);
+  cursor: pointer;
+  min-width: 120px;
+}
+
+.chapter-nav select:focus {
+  outline: none;
+  border-color: var(--color-accent);
+  box-shadow: 0 0 0 2px var(--color-focus-ring);
+}
+
+/* Prev/Next Navigation */
+.prev-next {
+  display: flex;
+  gap: 0.25rem;
+}
+
+.prev-next a {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.5rem;
+  height: 2.5rem;
+  background: var(--color-nav-bg);
+  color: var(--color-accent);
+  text-decoration: none;
+  border-radius: 4px;
+  border: 1px solid var(--color-border);
+  font-size: 1.2rem;
+  transition: background 0.2s, color 0.2s;
+}
+
+.prev-next a:hover {
+  background: var(--color-nav-hover);
+  color: var(--color-text-inverse);
+}
+
+.prev-next a.disabled,
+.prev-next span.disabled {
+  opacity: 0.4;
+  pointer-events: none;
+}
+
+.prev-next span.disabled {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.5rem;
+  height: 2.5rem;
+  background: var(--color-nav-bg);
+  color: var(--color-accent);
+  border-radius: 4px;
+  border: 1px solid var(--color-border);
+  font-size: 1.2rem;
+}
+
+/* Main Content Area */
+.main {
+  max-width: var(--max-width);
+  margin: 0 auto;
+  padding: var(--spacing-md) 0;
+}
+
+/* Headings & Titles */
+h1, h2, h3 {
+  font-weight: bold;
+  text-align: center;
+  margin: var(--spacing-md) 0;
+}
+
+h1 {
+  font-size: 1.4rem;
+}
+
+.mt {
+  display: block;
+  font-size: 1.5rem;
+  font-weight: bold;
+  text-align: center;
+  margin: var(--spacing-md) 0;
+}
+
+.mt2 {
+  display: block;
+  font-size: 1.3rem;
+  font-weight: bold;
+  text-align: center;
+}
+
+.mt3 {
+  display: block;
+  font-size: 1.1rem;
+  font-weight: bold;
+  text-align: center;
+  margin-bottom: var(--spacing-sm);
+}
+
+/* Chapter Label */
+.chapterlabel {
+  display: block;
+  text-align: center;
+  font-size: 1.2rem;
+  font-weight: bold;
+  margin: var(--spacing-lg) 0 var(--spacing-md);
+  color: var(--color-accent);
+}
+
+/* Paragraphs */
+.p {
+  display: block;
+  text-indent: 2rem;
+  margin: var(--spacing-sm) 0;
+  text-align: justify;
+}
+
+.m {
+  display: block;
+  margin: var(--spacing-sm) 0;
+}
+
+/* Poetry */
+.q {
+  display: block;
+  margin-left: 2rem;
+  text-indent: -1rem;
+  margin-top: 0.25rem;
+}
+
+.q2 {
+  display: block;
+  margin-left: 3rem;
+  text-indent: -1rem;
+  margin-top: 0.1rem;
+}
+
+.q3 {
+  display: block;
+  margin-left: 4rem;
+  text-indent: -1rem;
+}
+
+.b {
+  display: block;
+  margin-left: 2rem;
+  text-indent: -1rem;
+  margin-top: var(--spacing-sm);
+}
+
+/* Verse Numbers */
+.verse {
+  font-size: 0.65em;
+  vertical-align: super;
+  line-height: 0;
+  color: var(--color-accent);
+  font-weight: bold;
+  margin-right: 0.2em;
+}
+
+/* Words of Jesus */
+.wj {
+  color: var(--color-jesus);
+}
+
+/* Section Headings */
+.ms {
+  display: block;
+  font-weight: bold;
+  text-align: center;
+  font-size: 1.1rem;
+  margin: var(--spacing-md) 0;
+  color: var(--color-accent);
+}
+
+/* Special Text Styles */
+.bk {
+  font-weight: bold;
+  font-style: italic;
+}
+
+/* Table of Contents */
+.toc {
+  display: block;
+  margin: 0.25rem 0;
+}
+
+/* Footnotes & Cross References */
+.notemark {
+  font-size: 0.75em;
+  vertical-align: super;
+  line-height: 0;
+  color: var(--color-footnote);
+  text-decoration: none;
+  cursor: help;
+  position: relative;
+}
+
+.popup {
+  display: none;
+  position: absolute;
+  bottom: 1.5em;
+  left: 0;
+  background: var(--color-popup-bg);
+  border: 1px solid var(--color-border);
+  border-radius: 4px;
+  padding: 0.75rem;
+  width: 18rem;
+  font-size: 0.85rem;
+  line-height: 1.4;
+  box-shadow: 0 2px 8px var(--color-shadow);
+  z-index: 100;
+  text-indent: 0;
+  font-style: normal;
+  color: var(--color-text);
+}
+
+.notemark:hover .popup,
+.notemark:focus .popup {
+  display: block;
+}
+
+.footnote {
+  display: block;
+  margin-top: var(--spacing-lg);
+  padding-top: var(--spacing-md);
+  border-top: 1px solid var(--color-border);
+  font-size: 0.9rem;
+  color: var(--color-footnote);
+}
+
+.footnote hr {
+  display: none;
+}
+
+.f {
+  display: block;
+  margin: var(--spacing-sm) 0;
+}
+
+.notebackref {
+  color: var(--color-footnote);
+  text-decoration: none;
+  margin-right: 0.5rem;
+}
+
+.notebackref:hover {
+  text-decoration: underline;
+}
+
+/* Chapter Grid Navigation */
+.tnav {
+  list-style: none;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: var(--spacing-md) 0;
+  margin: 0;
+}
+
+.tnav li {
+  display: inline;
+}
+
+.tnav a {
+  display: inline-block;
+  padding: 0.4rem 0.8rem;
+  min-width: 2rem;
+  text-align: center;
+  background-color: var(--color-nav-bg);
+  color: var(--color-accent);
+  text-decoration: none;
+  border-radius: 4px;
+  border: 1px solid var(--color-border);
+  transition: background-color 0.2s, color 0.2s;
+}
+
+.tnav a:hover,
+.tnav a:focus {
+  background-color: var(--color-nav-hover);
+  color: var(--color-text-inverse);
+}
+
+/* Chapter List Page */
+.chlist .main {
+  text-align: center;
+}
+
+.chlist .main h1 {
+  font-size: 1.8rem;
+  color: var(--color-accent);
+  margin-bottom: var(--spacing-sm);
+}
+
+.chlist .main h2 {
+  font-size: 1.1rem;
+  font-weight: normal;
+  color: var(--color-copyright);
+  margin-bottom: var(--spacing-lg);
+}
+
+.chlist .main h2 a {
+  color: var(--color-link);
+  text-decoration: none;
+}
+
+.chlist .main h2 a:hover {
+  text-decoration: underline;
+}
+
+.chlist .tnav {
+  max-width: 600px;
+  margin: 0 auto;
+  padding: var(--spacing-lg) 0;
+}
+
+.chlist .tnav a {
+  min-width: 2.5rem;
+}
+
+/* Index Page / Book List */
+.bklist {
+  padding: var(--spacing-md);
+}
+
+.bklist header {
+  text-align: center;
+  margin-bottom: var(--spacing-lg);
+}
+
+.bklist h1 {
+  margin-bottom: var(--spacing-sm);
+}
+
+.bookList {
+  max-width: 800px;
+  margin: 0 auto var(--spacing-lg);
+}
+
+.bookList h3 {
+  background: var(--color-nav-hover);
+  color: var(--color-text-inverse);
+  padding: var(--spacing-sm) var(--spacing-md);
+  margin: var(--spacing-md) 0 0;
+  text-align: left;
+  font-size: 1rem;
+}
+
+.bookList ul {
+  list-style: none;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  gap: 1px;
+  background: var(--color-border);
+  border: 1px solid var(--color-border);
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.bookList li {
+  background: var(--color-background);
+}
+
+.bookList li a {
+  display: block;
+  padding: 0.5rem 0.75rem;
+  color: var(--color-text);
+  text-decoration: none;
+  transition: background 0.2s;
+}
+
+.bookList li a:hover {
+  background: var(--color-surface-alt);
+}
+
+.book-translit {
+  font-size: 0.82em;
+  color: var(--color-transliteration);
+  font-style: italic;
+}
+
+.vnav {
+  list-style: none;
+}
+
+.mainindex {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: var(--spacing-md);
+}
+
+.mainindex h3 {
+  margin-top: var(--spacing-lg);
+  margin-bottom: var(--spacing-sm);
+  color: var(--color-accent);
+}
+
+.mainindex ul {
+  list-style: disc;
+  margin-left: var(--spacing-lg);
+}
+
+.mainindex li {
+  margin: 0.25rem 0;
+}
+
+.mainindex .note {
+  font-style: italic;
+  color: var(--color-copyright);
+  margin-top: var(--spacing-lg);
+}
+
+.mainindex .fine {
+  margin-top: var(--spacing-lg);
+  text-align: center;
+  font-size: 0.85rem;
+  color: var(--color-copyright);
+}
+
+/* Copyright */
+.copyright {
+  display: block;
+  margin-top: var(--spacing-lg);
+  padding-top: var(--spacing-md);
+  font-size: 0.85rem;
+  color: var(--color-copyright);
+  text-align: center;
+}
+
+.copyright a {
+  color: var(--color-link);
+}
+
+/* Links */
+a {
+  color: var(--color-link);
+}
+
+a:hover {
+  color: var(--color-link-hover);
+}
+
+/* ================================
+   Name Transliteration Annotations
+   ================================ */
+
+/* Old-style (kept for backward compat) */
+.rkb-name {
+  font-size: 0.82em;
+  color: var(--color-transliteration);
+  font-style: italic;
+  letter-spacing: 0.01em;
+  white-space: nowrap;
+}
+
+/* New structured name annotations */
+.rkb-ann {
+  /* Container — no visual styling itself */
+}
+
+.rkb-s {
+  /* Standard (English) name — shown by default */
+}
+
+.rkb-c {
+  /* Corrected (Hebrew) name — hidden by default */
+  display: none;
+}
+
+.rkb-d {
+  /* Detail annotation — shown by default (both mode) */
+  font-size: 0.82em;
+  color: var(--color-transliteration);
+  font-style: italic;
+  letter-spacing: 0.01em;
+  white-space: nowrap;
+}
+
+/* Name Mode: Standard (English only) — hide annotations */
+[data-name-mode="standard"] .rkb-d { display: none; }
+[data-name-mode="standard"] .rkb-c { display: none; }
+
+/* Name Mode: Corrected (Hebrew only) — show Hebrew, hide English + annotations */
+[data-name-mode="corrected"] .rkb-s { display: none; }
+[data-name-mode="corrected"] .rkb-c { display: inline; }
+[data-name-mode="corrected"] .rkb-d { display: none; }
+
+/* Name Mode: Both (default) — show English + annotations, hide corrected-only */
+[data-name-mode="both"] .rkb-c { display: none; }
+
+/* ================================
+   Article Pages
+   ================================ */
+.article-content {
+  max-width: var(--max-width);
+  margin: 0 auto;
+  padding: var(--spacing-md) 0 var(--spacing-xl);
+}
+
+.article-content section {
+  margin-bottom: var(--spacing-xl);
+}
+
+.article-content h2 {
+  text-align: left;
+  font-size: 1.4rem;
+  color: var(--color-accent);
+  margin: var(--spacing-xl) 0 var(--spacing-md);
+  padding-bottom: var(--spacing-sm);
+  border-bottom: 2px solid var(--color-border);
+}
+
+.article-content h2:first-child {
+  margin-top: 0;
+}
+
+.article-content p {
+  margin-bottom: var(--spacing-md);
+  text-align: left;
+  line-height: 1.8;
+}
+
+.article-content ul,
+.article-content ol {
+  margin: var(--spacing-md) 0 var(--spacing-md) var(--spacing-lg);
+  line-height: 1.8;
+}
+
+.article-content li {
+  margin-bottom: var(--spacing-sm);
+}
+
+.article-content blockquote {
+  margin: var(--spacing-lg) var(--spacing-lg);
+  padding: var(--spacing-md) var(--spacing-lg);
+  border-left: 4px solid var(--color-accent);
+  background: var(--color-surface);
+  border-radius: 0 4px 4px 0;
+  font-style: italic;
+}
+
+.article-content blockquote p {
+  margin-bottom: var(--spacing-sm);
+}
+
+.article-content blockquote cite {
+  display: block;
+  font-size: 0.9rem;
+  color: var(--color-copyright);
+  margin-top: var(--spacing-sm);
+  font-style: normal;
+}
+
+.article-content table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: var(--spacing-lg) 0;
+  font-size: 0.95rem;
+  line-height: 1.5;
+}
+
+.article-content thead {
+  background: var(--color-accent);
+  color: var(--color-text-inverse);
+}
+
+.article-content th {
+  padding: 0.75rem var(--spacing-md);
+  text-align: left;
+  font-weight: bold;
+  font-size: 0.9rem;
+  letter-spacing: 0.02em;
+}
+
+.article-content td {
+  padding: 0.6rem var(--spacing-md);
+  border-bottom: 1px solid var(--color-border);
+  vertical-align: top;
+}
+
+.article-content tbody tr:hover {
+  background: var(--color-surface);
+}
+
+.article-content tbody tr:nth-child(even) {
+  background: var(--color-table-stripe);
+}
+
+.subtitle {
+  text-align: center;
+  font-style: italic;
+  color: var(--color-copyright);
+  font-size: 1.1rem;
+  margin-bottom: var(--spacing-lg);
+}
+
+header h1 {
+  font-size: 1.8rem;
+  color: var(--color-accent);
+  margin-bottom: var(--spacing-sm);
+}
+
+.article-content + .fine,
+footer.fine {
+  text-align: center;
+  font-size: 0.85rem;
+  color: var(--color-copyright);
+  padding-top: var(--spacing-lg);
+  border-top: 1px solid var(--color-border);
+  margin-top: var(--spacing-xl);
+}
+
+footer.fine a {
+  color: var(--color-link);
+}
+
+.article-content section:last-child ul {
+  list-style: none;
+  margin-left: 0;
+  padding: 0;
+}
+
+.article-content section:last-child li {
+  padding: var(--spacing-sm) var(--spacing-md);
+  background: var(--color-surface);
+  border-radius: 4px;
+  margin-bottom: var(--spacing-sm);
+  border-left: 3px solid var(--color-accent);
+}
+
+.article-content section:last-child li a {
+  font-weight: bold;
+  text-decoration: none;
+}
+
+.article-content section:last-child li a:hover {
+  text-decoration: underline;
+}
+
+/* ================================
+   Theme Switcher & Name Switcher
+   ================================ */
+.theme-switcher,
+.name-switcher {
+  /* Sits in top nav */
+}
+
+.theme-switcher select,
+.name-switcher select {
+  padding: 0.35rem 0.5rem;
+  font-size: 0.85rem;
+  font-family: var(--font-sans);
+  border: 1px solid var(--color-border);
+  border-radius: 4px;
+  background: var(--color-background);
+  color: var(--color-text);
+  cursor: pointer;
+}
+
+.theme-switcher select:focus,
+.name-switcher select:focus {
+  outline: none;
+  border-color: var(--color-accent);
+  box-shadow: 0 0 0 2px var(--color-focus-ring);
+}
+
+.nav-controls {
+  display: flex;
+  gap: 0.5rem;
+  margin-left: auto;
+}
+
+/* ================================
+   Dark Theme (Night)
+   ================================ */
+[data-theme="dark"] {
+  --color-text: #e0d6c8;
+  --color-background: #1a1410;
+  --color-accent: #c4a882;
+  --color-jesus: #d4736c;
+  --color-link: #7da4cc;
+  --color-link-hover: #a3c4e0;
+  --color-nav-bg: #2a2118;
+  --color-nav-hover: #c4a882;
+  --color-footnote: #b0a090;
+  --color-copyright: #8a8078;
+  --color-sidebar-bg: #221b14;
+  --color-breadcrumb-bg: #251e16;
+  --color-border: #3d3228;
+  --color-surface: #251e16;
+  --color-transliteration: #b0a090;
+  --color-text-inverse: #1a1410;
+  --color-surface-alt: #2a2118;
+  --color-accent-dark: #d4bc9a;
+  --color-overlay: rgba(0,0,0,0.7);
+  --color-muted: #7a7068;
+  --color-focus-ring: rgba(196, 168, 130, 0.25);
+  --color-shadow: rgba(0,0,0,0.4);
+  --color-border-subtle: rgba(255,255,255,0.06);
+  --color-table-stripe: rgba(255, 255, 255, 0.03);
+  --color-popup-bg: #2a2118;
+}
+
+/* ================================
+   Classic Theme (Navy)
+   ================================ */
+[data-theme="classic"] {
+  --color-text: #2c2c2c;
+  --color-background: #faf8f2;
+  --color-accent: #2c3e6b;
+  --color-jesus: #8b1a1a;
+  --color-link: #2c5aa0;
+  --color-link-hover: #1a3d7a;
+  --color-nav-bg: #dce4f0;
+  --color-nav-hover: #2c3e6b;
+  --color-footnote: #4a5568;
+  --color-copyright: #718096;
+  --color-sidebar-bg: #f0f2f8;
+  --color-breadcrumb-bg: #e8ecf4;
+  --color-border: #c8d0e0;
+  --color-surface: #f0f2f8;
+  --color-transliteration: #4a5568;
+  --color-text-inverse: #fff;
+  --color-surface-alt: #dce4f0;
+  --color-accent-dark: #1a2a50;
+  --color-overlay: rgba(0,0,0,0.5);
+  --color-muted: #8a92a0;
+  --color-focus-ring: rgba(44, 62, 107, 0.15);
+  --color-shadow: rgba(0,0,0,0.12);
+  --color-border-subtle: rgba(0,0,0,0.06);
+  --color-table-stripe: rgba(0, 0, 0, 0.02);
+  --color-popup-bg: #f0f2f8;
+}
+
+/* ================================
+   Olive Theme (Sage)
+   ================================ */
+[data-theme="olive"] {
+  --color-text: #2c2e28;
+  --color-background: #fafaf6;
+  --color-accent: #4a5a3a;
+  --color-jesus: #8b1a1a;
+  --color-link: #4a7a50;
+  --color-link-hover: #2d5a32;
+  --color-nav-bg: #dde4d4;
+  --color-nav-hover: #4a5a3a;
+  --color-footnote: #5a6050;
+  --color-copyright: #7a8070;
+  --color-sidebar-bg: #f0f2ec;
+  --color-breadcrumb-bg: #e8ece2;
+  --color-border: #c8d0be;
+  --color-surface: #f0f2ec;
+  --color-transliteration: #5a6050;
+  --color-text-inverse: #fff;
+  --color-surface-alt: #dde4d4;
+  --color-accent-dark: #343f28;
+  --color-overlay: rgba(0,0,0,0.5);
+  --color-muted: #8a9080;
+  --color-focus-ring: rgba(74, 90, 58, 0.15);
+  --color-shadow: rgba(0,0,0,0.12);
+  --color-border-subtle: rgba(0,0,0,0.06);
+  --color-table-stripe: rgba(0, 0, 0, 0.02);
+  --color-popup-bg: #f0f2ec;
+}
+
+/* ================================
+   Responsive
+   ================================ */
+@media (min-width: 900px) {
+  .sidebar {
+    transform: translateX(0);
+    position: sticky;
+    height: auto;
+    max-height: 100vh;
+  }
+
+  .content-wrapper {
+    margin-left: 0;
+  }
+
+  .menu-toggle {
+    display: none;
+  }
+
+  .sidebar-close {
+    display: none;
+  }
+
+  .sidebar-overlay {
+    display: none !important;
+  }
+}
+
+@media (max-width: 899px) {
+  .sidebar {
+    width: min(240px, 75vw);
+  }
+
+  .sidebar-section li a {
+    padding: 0.5rem var(--spacing-md);
+    font-size: 0.95rem;
+  }
+}
+
+@media (max-width: 600px) {
+  body {
+    font-size: 1.1rem;
+  }
+
+  .sidebar {
+    width: min(220px, 80vw);
+  }
+
+  .sidebar-header {
+    padding: var(--spacing-sm) var(--spacing-md);
+  }
+
+  .sidebar-header h2 {
+    font-size: 1rem;
+  }
+
+  .sidebar-section summary {
+    padding: 0.5rem var(--spacing-md);
+    font-size: 0.9rem;
+  }
+
+  .sidebar-section li a {
+    padding: 0.55rem var(--spacing-md);
+    font-size: 0.9rem;
+  }
+
+  .content-wrapper {
+    padding: var(--spacing-sm);
+  }
+
+  .top-nav {
+    flex-direction: column;
+    align-items: stretch;
+    gap: var(--spacing-sm);
+  }
+
+  .breadcrumb {
+    font-size: 0.85rem;
+  }
+
+  .chapter-nav {
+    justify-content: center;
+  }
+
+  .prev-next {
+    justify-content: center;
+  }
+
+  .p {
+    text-indent: 1.5rem;
+  }
+
+  .q {
+    margin-left: 1.5rem;
+  }
+
+  .q2 {
+    margin-left: 2rem;
+  }
+
+  .q3 {
+    margin-left: 2.5rem;
+  }
+
+  .popup {
+    width: 14rem;
+    font-size: 0.8rem;
+  }
+
+  .tnav {
+    gap: 0.3rem;
+  }
+
+  .tnav a {
+    padding: 0.3rem 0.6rem;
+    font-size: 0.95rem;
+  }
+
+  .bookList ul {
+    grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+  }
+
+  .rkb-name,
+  .rkb-d {
+    white-space: normal;
+  }
+
+  .article-content h2 {
+    font-size: 1.2rem;
+  }
+
+  .article-content table {
+    font-size: 0.85rem;
+  }
+
+  .article-content th,
+  .article-content td {
+    padding: 0.5rem;
+  }
+
+  .article-content blockquote {
+    margin-left: 0;
+    margin-right: 0;
+  }
+
+  .nav-controls {
+    justify-content: center;
+  }
+}
+
+/* RTL Support */
+html[dir="rtl"] body {
+  direction: rtl;
+  text-align: right;
+}
+
+html[dir="rtl"] .q,
+html[dir="rtl"] .q2,
+html[dir="rtl"] .q3 {
+  margin-left: 0;
+  margin-right: 2rem;
+}
+
+html[dir="rtl"] .q2 {
+  margin-right: 3rem;
+}
+
+html[dir="rtl"] .q3 {
+  margin-right: 4rem;
+}
+
+/* Print Styles */
+@media print {
+  .sidebar,
+  .menu-toggle,
+  .top-nav,
+  .tnav,
+  .copyright,
+  .sidebar-overlay {
+    display: none !important;
+  }
+
+  body {
+    font-size: 11pt;
+    color: #000;
+    background: #fff;
+  }
+
+  .content-wrapper {
+    margin: 0;
+    padding: 0;
+  }
+
+  .popup {
+    display: none !important;
+  }
+
+  .verse {
+    font-size: 8pt;
+  }
+
+  .wj {
+    color: #000;
+  }
+
+  .rkb-name,
+  .rkb-d {
+    font-size: 0.8em;
+    color: #444;
+  }
+
+  a {
+    color: #000;
+    text-decoration: none;
+  }
+}

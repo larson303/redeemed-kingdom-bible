@@ -1,0 +1,29 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1" />
+	<meta name="description" content="Redeemed Kingdom Bible - Restoring Hebrew names and meanings alongside familiar English text" />
+	<link rel="manifest" href="/manifest.json" />
+	<link rel="icon" href="/favicon.ico" />
+	<meta name="theme-color" content="#3d2b1f" />
+	<meta name="apple-mobile-web-app-capable" content="yes" />
+	<meta name="apple-mobile-web-app-status-bar-style" content="default" />
+	<meta name="apple-mobile-web-app-title" content="RKB" />
+	<script>
+		(function() {
+			var t = localStorage.getItem('rkb-theme');
+			if (t && t !== 'default') document.documentElement.setAttribute('data-theme', t);
+			else if (matchMedia('(prefers-color-scheme:dark)').matches)
+				document.documentElement.setAttribute('data-theme', 'dark');
+			var n = localStorage.getItem('rkb-name-mode');
+			if (n) document.documentElement.setAttribute('data-name-mode', n);
+			else document.documentElement.setAttribute('data-name-mode', 'both');
+		})();
+	</script>
+	%sveltekit.head%
+</head>
+<body data-sveltekit-preload-data="hover">
+	<div style="display: contents">%sveltekit.body%</div>
+</body>
+</html>
